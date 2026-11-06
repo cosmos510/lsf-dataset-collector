@@ -1,154 +1,105 @@
-# 🤟 Corpus LSF - Dictionnaire Collaboratif
+# Corpus LSF - Dictionnaire Collaboratif
 
-> **Créons ensemble le plus grand dictionnaire de Langue des Signes Française**
+<div align="center">
 
-Une plateforme web moderne et accessible permettant de contribuer à la création d'un corpus LSF pour l'entraînement d'IA de reconnaissance gestuelle.
+**Créons ensemble le plus grand dictionnaire de Langue des Signes Française**
 
-## ✨ Fonctionnalités
+[![Démo Live](https://img.shields.io/badge/🚀_Essayer_maintenant-ia.lsf.webamax.fr-blue?style=for-the-badge)](https://ia.lsf.webamax.fr)
 
-### 🎯 **Contribution Simplifiée**
-- Interface intuitive en 3 étapes
-- Capture automatique de 10 photos en 10 secondes
-- Feedback visuel en temps réel
-- Support de toutes les lettres de l'alphabet
+[Présentation](#présentation) • [Essayer](#essayer) • [Fonctionnalités](#fonctionnalités) • [Objectifs](#objectifs) • [Contact](#contact)
 
-### 📱 **Design Responsive**
-- Optimisé mobile-first
-- Interface adaptative (téléphone, tablette, desktop)
-- Navigation tactile fluide
-
-### ♿ **Accessibilité WCAG 2.1 AA**
-- Structure sémantique complète
-- Support lecteurs d'écran
-- Navigation clavier
-- Contrastes optimisés
-- Messages live pour les actions
-
-### 🔐 **Authentification Sécurisée**
-- Connexion email/mot de passe
-- Intégration Google OAuth
-- Sessions sécurisées NextAuth.js
-
-## 🚀 Installation et Lancement Local
-
-### Prérequis
-- Node.js 18+ 
-- npm ou yarn
-- Compte Supabase (pour la base de données)
-
-### Étapes d'installation
-
-1. **Cloner le repository**
-   ```bash
-   git clone https://github.com/votre-username/ls-dataset-creator.git
-   cd ls-dataset-creator
-   ```
-
-2. **Installer les dépendances**
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
-
-3. **Configuration des variables d'environnement**
-   
-   Créer un fichier `.env.local` à la racine du projet :
-   ```env
-   # Supabase
-   LSF_NEXT_PUBLIC_SUPABASE_URL=votre_supabase_url
-   LSF_NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_supabase_anon_key
-   
-   # NextAuth.js
-   NEXTAUTH_URL=http://localhost:3000
-   NEXTAUTH_SECRET=votre_secret_aleatoire
-   
-   # Google OAuth (optionnel)
-   GOOGLE_CLIENT_ID=votre_google_client_id
-   GOOGLE_CLIENT_SECRET=votre_google_client_secret
-   ```
-
-4. **Lancer le serveur de développement**
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
-   ```
-
-5. **Accéder à l'application**
-   
-   Ouvrir [http://localhost:3000](http://localhost:3000) dans votre navigateur
-
-### Scripts disponibles
-
-- `npm run dev` : Lance le serveur de développement
-- `npm run build` : Build de production
-- `npm run start` : Lance le serveur de production
-- `npm run lint` : Vérification du code
-
-### Dépannage
-
-**Problème avec Safari en local :**
-- Redémarrer le serveur après modification de `next.config.mjs`
-- Vider le cache Safari (Développement > Vider les caches)
-- Utiliser Chrome/Firefox en alternative pour le développement
-
-**CSS non chargé :**
-- Vérifier que `npm install` a été exécuté
-- Redémarrer le serveur de développement
-
-## 🛠️ Stack Technique
-
-- **Framework** : Next.js 14 (App Router)
-- **Styling** : Tailwind CSS
-- **Animations** : Framer Motion
-- **Authentification** : NextAuth.js
-- **Base de données** : Supabase
-- **Caméra** : react-webcam
-- **Déploiement** : Vercel
-
-## 🌐 Fonctionnalités d'Accessibilité
-
-- **Navigation clavier** : Tab, Enter, Espace
-- **Lecteurs d'écran** : Labels ARIA, rôles sémantiques
-- **Contrastes** : Respect des ratios WCAG AA
-- **Focus visible** : Indicateurs visuels clairs
-- **Messages live** : Feedback temps réel
-
-## 🔄 Workflow de Contribution
-
-1. **Sélection** : Choisir une lettre dans le dropdown
-2. **Capture** : 10 photos automatiques en 10 secondes
-3. **Upload** : Envoi sécurisé vers la base de données
-4. **Feedback** : Confirmation visuelle de succès
-
-## 🎯 Objectifs du Projet
-
-- **1000 photos** par lettre de l'alphabet
-- **Diversité** des contributeurs pour la robustesse IA
-- **Qualité** des données pour l'entraînement
-- **Accessibilité** pour tous les utilisateurs
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! 
-
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/amelioration`)
-3. Commit les changements (`git commit -m 'Ajout fonctionnalité'`)
-4. Push vers la branche (`git push origin feature/amelioration`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 👨‍💻 Auteur
-
-**Maxime Martin**
-- LinkedIn : [maxime-martin](https://www.linkedin.com/in/maxime-martin-090731aa/)
-- Email : maximemartin510@gmail.com
+</div>
 
 ---
 
-*Ensemble, construisons l'avenir de la communication inclusive* 🤟
+## Présentation
+
+**Corpus LSF** est une plateforme web moderne et collaborative permettant de contribuer à la création d'un corpus de données pour l'entraînement d'intelligences artificielles de reconnaissance gestuelle en Langue des Signes Française (LSF).
+
+### Le constat
+
+- L'apprentissage et la reconnaissance automatique de la LSF manquent cruellement de bases de données visuelles ouvertes et diversifiées.
+- La collecte de données de qualité est essentielle pour entraîner des modèles d'IA robustes et précis.
+
+### La solution
+
+Une application web simple et accessible qui :
+- **Simplifie la contribution** - une interface intuitive pour capturer des séquences de signes
+- **Garantit la qualité** - capture automatisée de photos avec retour visuel en temps réel
+- **Sécurise les données** - authentification moderne et stockage sécurisé
+- **Est accessible à tous** - conçue dans le respect des normes d'accessibilité (WCAG 2.1 AA)
+
+---
+
+## Essayer
+
+<div align="center">
+
+### 👉 [ia.lsf.webamax.fr](https://ia.lsf.webamax.fr) 👈
+
+**Participez à la collecte et aidez à bâtir l'avenir de la LSF numérique.**
+
+</div>
+
+### Comment participer ?
+
+1. **Sélectionnez une lettre** - choisissez le signe ou la lettre à enregistrer via le menu déroulant
+2. **Lancez la capture** - le système prend automatiquement 10 photos en 10 secondes
+3. **Validez l'envoi** - vos images sont envoyées de manière sécurisée pour enrichir le corpus
+
+---
+
+## Fonctionnalités
+
+| ✨ Fonctionnalité | Description |
+|------------------|-------------|
+| **Contribution simplifiée** | Interface intuitive en 3 étapes avec capture automatique |
+| **Design Responsive** | Optimisé mobile-first (téléphone, tablette, desktop) |
+| **Accessibilité WCAG** | Navigation clavier, lecteurs d'écran, contrastes optimisés |
+| **Authentification sécurisée** | Connexion par email/mot de passe et intégration Google OAuth |
+| **Temps réel** | Feedback visuel et messages live pour guider l'utilisateur |
+
+---
+
+## Objectifs du Projet
+
+| Métrique / Objectif | Cible |
+|---------------------|-------|
+| **Volume de données** | 1000 photos par lettre de l'alphabet |
+| **Diversité** | Multiplier les contributeurs pour garantir la robustesse de l'IA |
+| **Qualité** | Assurer des conditions variées (angles, éclairages) |
+| **Accessibilité** | Inclusion totale des utilisateurs et de la communauté |
+
+---
+
+## À propos du projet
+
+### Stack Technique
+
+L'application repose sur des technologies modernes :
+- **Framework** : Next.js 14 (App Router)
+- **Styling & UI** : Tailwind CSS & Framer Motion
+- **Authentification & Base de données** : NextAuth.js & Supabase
+- **Caméra** : react-webcam
+- **Hébergement** : Vercel
+
+---
+
+## Contact
+
+<div align="center">
+
+[![Email](https://img.shields.io/badge/Email-maximemartin510%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:maximemartin510@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Maxime_Martin-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/maxime-martin-090731aa/)
+
+</div>
+
+---
+
+<div align="center">
+
+**Corpus LSF** - Ensemble, construisons l'avenir de la communication inclusive.
+
+### [👉 Accéder à la plateforme](https://ia.lsf.webamax.fr)
+
+</div>
