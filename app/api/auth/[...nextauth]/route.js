@@ -40,8 +40,8 @@ export const authOptions = {
     }),
   ],
   pages: {
-    signIn: "/login",
-    error: "/auth/error",
+    signIn: "/",
+    error: "/",
     signOut: "/",
   },
   session: {
