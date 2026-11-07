@@ -1,149 +1,140 @@
-"use client";
+'use client';
 
-import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
-import RegisterModal from "./RegisterModal";
-import TutorialModal from "./TutorialModal";
-import Link from "next/link";
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-export default function HeaderWithButtons() {
-  const { data: session } = useSession();
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [isTutorialModalOpen, setIsTutorialModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function HeaderWithButtons({ onShowRegister }) {
+  const { data: session, status } = useSession();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const closeModal = () => {
-    setIsRegisterModalOpen(false);
-    setIsTutorialModalOpen(false);
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleLoginClick = () => {
+    if (onShowRegister) onShowRegister();
+    else signIn('google');
   };
 
   return (
-    <>
-      <header className="w-full py-6 px-4 md:px-8 sticky top-0 z-50" role="banner">
-        <div className="max-w-7xl mx-auto flex justify-between items-center glass-card px-4 md:px-8 py-3 border-white/10 shadow-2xl">
-          
-          <div className="flex-1">
-            <Link href="/" className="text-xl font-black tracking-tighter bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
-              LSF BASE
-            </Link>
-          </div>
-          
-          <nav className="hidden lg:flex flex-1 justify-center items-center gap-8">
-            <Link href="/" className="text-sm font-medium text-white/50 hover:text-white transition-all">
-              Accueil
-            </Link>
-            {session ? (
-              <Link 
-                href="/capture" 
-                className="btn-collecte pulse-collecte flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm transform hover:scale-105 transition-all"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                Contribuer à la collecte
-              </Link>
-            ) : (
-              <button 
-                onClick={() => {
-                  localStorage.setItem('redirectAfterLogin', '/capture');
-                  setIsRegisterModalOpen(true);
-                }}
-                className="btn-collecte pulse-collecte flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm transform hover:scale-105 transition-all"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                Contribuer à la collecte
-              </button>
-            )}
-
-            <button
-              onClick={() => setIsTutorialModalOpen(true)}
-              className="text-sm font-medium text-white/50 hover:text-white transition-all"
-            >
-              Tutoriel
-            </button>
-          </nav>
-
-          <div className="flex-1 flex justify-end items-center gap-4">
-            {!session ? (
-              <button
-                onClick={() => setIsRegisterModalOpen(true)}
-                className="text-xs font-bold text-white/70 hover:text-white uppercase tracking-widest transition-all"
-              >
-                Connexion
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  signOut({ redirect: false }).then(() => {
-                    window.location.href = "/";
-                  });
-                }}
-                className="text-xs font-bold text-red-400 hover:text-red-300 uppercase tracking-widest transition-all"
-              >
-                Quitter
-              </button>
-            )}
-
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden text-white p-2 ml-2"
-              aria-label="Menu"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-                )}
+    <header className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
+      <div className="container">
+        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '70px' }}>
+          {/* Logo */}
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--color-dark)' }}>
+            <div style={{
+              width: '36px',
+              height: '36px',
+              background: 'var(--color-accent)',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               </svg>
-            </button>
+            </div>
+            <span style={{ fontWeight: 600, fontSize: '1.125rem' }}>LSF Dataset</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
+            <a href="#comment-ca-marche" className="link">Comment ça marche</a>
+            <a href="#progression" className="link">Progression</a>
+            <Link href="/privacy" className="link">Confidentialité</Link>
+          </div>
+
+          {/* Auth */}
+          <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {status === 'loading' ? (
+              <div style={{ width: '100px', height: '40px', background: 'var(--color-alt)', borderRadius: '4px' }} />
+            ) : session ? (
+              <>
+                <Link href="/capture" className="btn btn-primary">Capturer</Link>
+                <button onClick={() => signOut()} className="btn btn-outline">Déconnexion</button>
+              </>
+            ) : (
+              <button onClick={handleLoginClick} className="btn btn-primary">Se connecter</button>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{
+              display: 'none',
+              width: '40px',
+              height: '40px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'var(--border)',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              color: 'var(--color-dark)'
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {isMobileMenuOpen ? <path d="M18 6L6 18M6 6l12 12"/> : <path d="M3 12h18M3 6h18M3 18h18"/>}
+            </svg>
+          </button>
+        </nav>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div style={{
+          position: 'fixed',
+          top: '70px',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'var(--color-cream)',
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          zIndex: 99
+        }}>
+          <a href="#comment-ca-marche" onClick={() => setIsMobileMenuOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 500, color: 'var(--color-dark)', textDecoration: 'none', padding: '1rem 0', borderBottom: '1px solid var(--color-alt)' }}>
+            Comment ça marche
+          </a>
+          <a href="#progression" onClick={() => setIsMobileMenuOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 500, color: 'var(--color-dark)', textDecoration: 'none', padding: '1rem 0', borderBottom: '1px solid var(--color-alt)' }}>
+            Progression
+          </a>
+          <Link href="/privacy" onClick={() => setIsMobileMenuOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 500, color: 'var(--color-dark)', textDecoration: 'none', padding: '1rem 0', borderBottom: '1px solid var(--color-alt)' }}>
+            Confidentialité
+          </Link>
+          <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {session ? (
+              <>
+                <Link href="/capture" className="btn btn-primary" style={{ justifyContent: 'center' }} onClick={() => setIsMobileMenuOpen(false)}>Capturer</Link>
+                <button onClick={() => { signOut(); setIsMobileMenuOpen(false); }} className="btn btn-outline" style={{ justifyContent: 'center' }}>Déconnexion</button>
+              </>
+            ) : (
+              <button onClick={() => { handleLoginClick(); setIsMobileMenuOpen(false); }} className="btn btn-primary" style={{ justifyContent: 'center' }}>Se connecter</button>
+            )}
           </div>
         </div>
+      )}
 
-        {isMenuOpen && (
-          <div className="absolute top-24 left-4 right-4 glass-card p-6 flex flex-col gap-4 lg:hidden border-white/20 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
-            {session ? (
-              <Link href="/capture" className="bg-white text-black font-black py-4 px-4 rounded-xl text-center flex items-center justify-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                </svg>
-                PRENDRE DES PHOTOS
-              </Link>
-            ) : (
-              <button onClick={() => { 
-                localStorage.setItem('redirectAfterLogin', '/capture');
-                setIsRegisterModalOpen(true); 
-                setIsMenuOpen(false); 
-              }} className="bg-white text-black font-black py-4 px-4 rounded-xl text-center flex items-center justify-center gap-3">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                </svg>
-                PRENDRE DES PHOTOS
-              </button>
-            )}
-            <div className="grid grid-cols-2 gap-3 mt-2">
-              <Link href="/" className="text-white text-center font-medium p-3 rounded-xl bg-white/5 border border-white/10" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
-              <button onClick={() => { setIsTutorialModalOpen(true); setIsMenuOpen(false); }} className="text-white text-center font-medium p-3 rounded-xl bg-white/5 border border-white/10">Tuto</button>
-            </div>
-            {!session ? (
-              <button onClick={() => { setIsRegisterModalOpen(true); setIsMenuOpen(false); }} className="text-white/60 text-xs font-bold uppercase tracking-widest mt-4">Connexion</button>
-            ) : (
-              <button onClick={() => {
-                signOut({ redirect: false }).then(() => {
-                  window.location.href = "/";
-                });
-              }} className="text-red-400/60 text-xs font-bold uppercase tracking-widest mt-4">Se déconnecter</button>
-            )}
-          </div>
-        )}
-      </header>
-
-      {isRegisterModalOpen && <RegisterModal isOpen={isRegisterModalOpen} onClose={closeModal} />}
-      {isTutorialModalOpen && <TutorialModal isOpen={isTutorialModalOpen} onClose={closeModal} />}
-    </>
+      <style jsx>{`
+        @media (min-width: 768px) {
+          .desktop-nav { display: flex !important; }
+          .mobile-menu-btn { display: none !important; }
+        }
+        @media (max-width: 767px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: flex !important; }
+        }
+      `}</style>
+    </header>
   );
 }
