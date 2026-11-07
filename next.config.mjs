@@ -1,15 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuration pour Safari
-  experimental: {
-    esmExternals: false,
-  },
-  webpack: (config, { dev }) => {
-    if (dev) {
-      config.cache = false;
-    }
-    return config;
-  },
+  // Config Turbopack pour Next.js 16
+  turbopack: {},
+  
   async headers() {
     if (process.env.NODE_ENV === 'development') {
       return [];
